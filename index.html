@@ -1,4 +1,4 @@
-skeleton<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -29,14 +29,23 @@ skeleton<!DOCTYPE html>
 
       #map {
         position: absolute;
-        top: 0;
+        top: 10%;
         bottom: 0;
-        width: 100%;
+        left: 5%;
+        width: 90%;
+        height: 80%;
       }
     </style>
   </head>
   <body>
-    <div id="map"></div>
+    <div>
+      <h1>Dude, save my car!</h1>
+      <subtitle
+        >Type in an address to see if you might get towed and soon do other cool
+        stuff too</subtitle
+      >
+      <div id="map"></div>
+    </div>
 
     <script>
       mapboxgl.accessToken =
