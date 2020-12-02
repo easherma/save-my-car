@@ -19,6 +19,8 @@ skeleton<!DOCTYPE html>
       href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css"
       type="text/css"
     />
+    <script src="data/overnightParking.js"></script>
+    <script src="data/snowData.js"></script>
     <style>
       body {
         margin: 0;
@@ -62,7 +64,6 @@ skeleton<!DOCTYPE html>
           latitude: 41.881832,
         }, // Chicago Centroid
       });
-
       // Add the geocoder to the map
       map.addControl(geocoder);
 
@@ -75,6 +76,14 @@ skeleton<!DOCTYPE html>
             type: "FeatureCollection",
             features: [],
           },
+        });
+        map.addSource("overnightParking", {
+          type: "geojson",
+          data: overnightParking,
+        });
+        map.addSource("snowData", {
+          type: "geojson",
+          data: snowData,
         });
 
         map.addLayer({
@@ -92,6 +101,32 @@ skeleton<!DOCTYPE html>
         // Add a marker at the result's coordinates
         geocoder.on("result", function (ev) {
           map.getSource("single-point").setData(ev.result.geometry);
+        });
+        map.addLayer({
+          id: "overnightParking",
+          type: "line",
+          source: "overnightParking",
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": "#888",
+            "line-width": 8,
+          },
+        });
+        map.addLayer({
+          id: "snowData",
+          type: "line",
+          source: "snowData",
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": "#888",
+            "line-width": 3,
+          },
         });
       });
     </script>
