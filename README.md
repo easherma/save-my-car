@@ -21,6 +21,14 @@ WBEZ story: http://interactive.wbez.org/towing-the-line/?fbclid=IwAR3RpcBb6GlFJQ
 #### Use cases
 As a resident, I need an easy and interactive way to tell where I might get towed if I leave my car. 
 
+* Something that just shows one point, _not_ the whole city.
+* An address lookup would be helpful. 
+* An interactive map. Sometimes I park at my house, sometimes not, so I need to change where I'm parked.
+* I might have other parking needs, issues with other parking issues and I need a reliable way to check things.
+* What about construction? 
+* IRL signage, digital notifications?
+* Here where I was, but I don't know where my car is?
+
 #### Requirements 
 
 We need data on:
