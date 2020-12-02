@@ -95,12 +95,18 @@ skeleton<!DOCTYPE html>
             "circle-color": "#448ee4",
           },
         });
-
-        // Listen for the `result` event from the Geocoder
-        // `result` event is triggered when a user makes a selection
-        // Add a marker at the result's coordinates
-        geocoder.on("result", function (ev) {
-          map.getSource("single-point").setData(ev.result.geometry);
+        map.addLayer({
+          id: "snowData",
+          type: "line",
+          source: "snowData",
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": "#FBF1A9",
+            "line-width": 5,
+          },
         });
         map.addLayer({
           id: "overnightParking",
@@ -111,22 +117,16 @@ skeleton<!DOCTYPE html>
             "line-cap": "round",
           },
           paint: {
-            "line-color": "#888",
-            "line-width": 8,
+            "line-color": "#E7040F",
+            "line-width": 6,
           },
         });
-        map.addLayer({
-          id: "snowData",
-          type: "line",
-          source: "snowData",
-          layout: {
-            "line-join": "round",
-            "line-cap": "round",
-          },
-          paint: {
-            "line-color": "#888",
-            "line-width": 3,
-          },
+
+        // Listen for the `result` event from the Geocoder
+        // `result` event is triggered when a user makes a selection
+        // Add a marker at the result's coordinates
+        geocoder.on("result", function (ev) {
+          map.getSource("single-point").setData(ev.result.geometry);
         });
       });
     </script>
