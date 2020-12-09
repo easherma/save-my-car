@@ -57,9 +57,9 @@
         zoom: 12, // Starting zoom level
       });
 
-      var marker = new mapboxgl.Marker() // Initialize a new marker
-        .setLngLat([-87.623177, 41.881832]) // Marker [lng, lat] coordinates
-        .addTo(map); // Add the marker to the map
+      // var marker = new mapboxgl.Marker() // Initialize a new marker
+      //   .setLngLat([-87.623177, 41.881832]) // Marker [lng, lat] coordinates
+      //   .addTo(map); // Add the marker to the map
 
       var geocoder = new MapboxGeocoder({
         // Initialize the geocoder
@@ -94,6 +94,11 @@
           type: "geojson",
           data: snowData,
         });
+        var bufferedSnowData = turf.buffer(overnightParking, 0.1);
+        map.addSource("snowDataBuffered", {
+          type: "geojson",
+          data: bufferedSnowData,
+        });
 
         map.addLayer({
           id: "point",
@@ -115,6 +120,19 @@
           paint: {
             "line-color": "#FBF1A9",
             "line-width": 5,
+          },
+        });
+        map.addLayer({
+          id: "snowDataBuffer",
+          type: "line",
+          source: "snowDataBuffered",
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": "#fabebe",
+            "line-width": 3,
           },
         });
         map.addLayer({
