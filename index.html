@@ -13,7 +13,8 @@
       rel="stylesheet"
     />
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js"></script>
-    <script src="https://api.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js"></script>
+    <!-- <script src="https://api.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js"></script> -->
+    <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
     <link
       rel="stylesheet"
       href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css"
@@ -57,9 +58,9 @@
         zoom: 12, // Starting zoom level
       });
 
-      var marker = new mapboxgl.Marker() // Initialize a new marker
-        .setLngLat([-87.623177, 41.881832]) // Marker [lng, lat] coordinates
-        .addTo(map); // Add the marker to the map
+      // var marker = new mapboxgl.Marker() // Initialize a new marker
+      //   .setLngLat([-87.623177, 41.881832]) // Marker [lng, lat] coordinates
+      //   .addTo(map); // Add the marker to the map
 
       var geocoder = new MapboxGeocoder({
         // Initialize the geocoder
@@ -94,6 +95,11 @@
           type: "geojson",
           data: snowData,
         });
+        var bufferedSnowData = turf.buffer(overnightParking, 0.01);
+        map.addSource("snowDataBuffered", {
+          type: "geojson",
+          data: bufferedSnowData,
+        });
 
         map.addLayer({
           id: "point",
@@ -118,6 +124,19 @@
           },
         });
         map.addLayer({
+          id: "snowDataBuffer",
+          type: "line",
+          source: "snowDataBuffered",
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": "#fabebe",
+            "line-width": 3,
+          },
+        });
+        map.addLayer({
           id: "overnightParking",
           type: "line",
           source: "overnightParking",
@@ -136,6 +155,13 @@
         // Add a marker at the result's coordinates
         geocoder.on("result", function (ev) {
           map.getSource("single-point").setData(ev.result.geometry);
+          // less than ideal to do this all in this function but works for now
+          let point = ev.result.geometry;
+          let bufferedData = turf.buffer(overnightParking, 0.01);
+          let intersection = turf.pointsWithinPolygon(ev.result, bufferedData)
+            .features.length;
+          let AmIScrewed = intersection > 0;
+          console.log(AmIScrewed);
         });
       });
     </script>
