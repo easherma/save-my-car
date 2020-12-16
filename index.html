@@ -30,7 +30,6 @@
 
       #map {
         position: absolute;
-        top: 10%;
         bottom: 0;
         left: 5%;
         width: 90%;
@@ -45,6 +44,7 @@
         >Type in an address to see if you might get towed and soon do other cool
         stuff too</subtitle
       >
+      <div id="amIScrewed"></div>
       <div id="map"></div>
     </div>
 
@@ -160,8 +160,21 @@
           let bufferedData = turf.buffer(overnightParking, 0.01);
           let intersection = turf.pointsWithinPolygon(ev.result, bufferedData)
             .features.length;
-          let AmIScrewed = intersection > 0;
-          console.log(AmIScrewed);
+          let amIScrewed = intersection > 0;
+          let el = document.getElementById("amIScrewed");
+          let content;
+
+          if (!amIScrewed) {
+            content = "<h2>You're good</h2>";
+          }
+          if (amIScrewed) {
+            content = "<h2>Go move your car!</h2>";
+          }
+
+          if (typeof content !== undefined) {
+            el.insertAdjacentHTML("afterbegin", content);
+            console.log(amIScrewed);
+          }
         });
       });
     </script>
